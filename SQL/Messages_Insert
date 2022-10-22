@@ -1,0 +1,73 @@
+USE [MiVet]
+GO
+/****** Object:  StoredProcedure [dbo].[Messages_Insert]    Script Date: 10/22/2022 12:43:28 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+-- Author: Jared Dayoub
+-- Create date: 09/26/2022
+-- Description: Messages Insert
+-- Code Reviewer: TBD
+
+-- MODIFIED BY: author
+-- MODIFIED DATE:09/26/2022
+-- Code Reviewer: TBD
+-- Note:
+
+ALTER proc [dbo].[Messages_Insert]
+					@Message nvarchar(1000)
+				   ,@Subject nvarchar(100)
+				   ,@RecipientId int
+				   ,@SenderId int
+				   ,@Id int OUTPUT
+
+as
+
+/*
+	
+	Declare @Id int = 0;
+	
+	Declare @Message nvarchar(1000) = 'Message test'
+			,@Subject nvarchar(100) = 'Hello'
+			,@RecipientId int = 2
+			,@SenderId int = 1
+
+	Execute dbo.Messages_Insert
+							@Message
+						   ,@Subject
+						   ,@RecipientId
+						   ,@SenderId
+						   ,@Id OUTPUT
+
+	Select @Id
+
+	Select *
+	From dbo.Messages
+	Where Id = @Id
+
+*/
+
+BEGIN
+
+	Declare @DateNow datetime2(7) = GETUTCDATE()
+
+	INSERT INTO [dbo].[Messages]
+           ([Message]
+           ,[Subject]
+           ,[RecipientId]
+           ,[SenderId]
+           ,[DateSent])
+
+     VALUES
+           (@Message
+           ,@Subject
+           ,@RecipientId
+           ,@SenderId
+           ,@DateNow)
+	
+	SET @Id = SCOPE_IDENTITY()
+
+END
