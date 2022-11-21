@@ -9,12 +9,10 @@ const appRoutes = [
     exact: true,
     element: Chat,
     roles: ["User"],
-    isAnonymous: false,
+    isAnonymous: true,
   },
 ];
 
-const allRoutes = [
-  ...appRoutes,
-];
+const allRoutes = [...appRoutes];
 
 export default allRoutes;

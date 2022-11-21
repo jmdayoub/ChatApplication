@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Row, Col } from "react-bootstrap";
-import messageServices from "services/messageService";
+import messageServices from "../../services/messageService";
 import debug from "sabio-debug";
 import PropTypes from "prop-types";
 import Sidebar from "./sidebar/Sidebar";
@@ -20,10 +20,10 @@ const Chat = ({ currentUser }) => {
   var counter = useRef(0);
 
   useEffect(() => {
-    messageServices
-      .getByConversation()
-      .then(getByConvoSuccess)
-      .catch(getByConvoError);
+    // messageServices
+    //   .getByConversation()
+    //   .then(getByConvoSuccess)
+    //   .catch(getByConvoError);
   }, []);
 
   const connection = new HubConnectionBuilder()

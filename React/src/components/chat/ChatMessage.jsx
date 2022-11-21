@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import debug from "sabio-debug";
 import { FiMoreVertical, FiEdit, FiTrash, FiSend } from "react-icons/fi";
-import messageServices from "services/messageService";
+import messageServices from "../../services/messageService";
 const _logger = debug.extend("Chatbox");
 
 const ChatMessage = ({ message, currentUser, updateMessage }) => {

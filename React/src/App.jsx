@@ -1,26 +1,19 @@
 import React, { Suspense, useState, useEffect, useCallback } from "react";
 import logger from "sabio-debug";
 import { Routes, Route, useLocation } from "react-router-dom";
-import DefaultLayout from "./layouts/marketing/DefaultLayout";
-import HorizontalLayout from "./layouts/dashboard/DashboardIndex";
-import GoogleAnalytics from "components/dashboard/analytics/GoogleAnalytics";
+import Chat from "components/chat/Chat";
 
-import { netUserService } from "services/userService";
-
-import {
-  authProtectedFlattenRoutes,
-  publicProtectedFlattenRoutes,
-} from "./routes";
 const DEFAULT_USER = {
   id: 0,
   roles: [],
+  firstName: "Jared",
+  lastName: "Test",
   email: "",
-  isLoggedIn: false,
+  isLoggedIn: true,
 };
 const Loading = () => <div className="">loading....</div>;
 const _logger = logger.extend("App");
-_logger("publicProtectedFlattenRoutes", publicProtectedFlattenRoutes);
-_logger("authProtectedFlattenRoutes", authProtectedFlattenRoutes);
+// _logger("authProtectedFlattenRoutes", authProtectedFlattenRoutes);
 
 export default function App(props) {
   const { pathname } = useLocation();
@@ -30,33 +23,8 @@ export default function App(props) {
 
   const [loginState, setLoginState] = useState(currentUser.isLoggedIn);
 
-  useEffect(() => {
-    GoogleAnalytics();
-
-    const onGetUserSuccess = (response) => {
-      setCurrentUser((prevState) => {
-        const pd = { ...prevState };
-        pd.id = response.item.id;
-        pd.roles = response.item.roles;
-        pd.email = response.item.name;
-        pd.isLoggedIn = true;
-        return pd;
-      });
-      setLoginState(true);
-    };
-    const onGetUserError = (error) => {
-      setCurrentUser(DEFAULT_USER);
-      setLoginState(false);
-      _logger(error);
-    };
-    netUserService
-      .getCurrentUser()
-      .then(onGetUserSuccess)
-      .catch(onGetUserError);
-  }, [loginState]);
-
   const [currentPath, setCurrentPath] = useState({
-    isPublic: false,
+    isPublic: true,
     isSecured: false,
     isUnknown: false,
   });
@@ -116,25 +84,19 @@ export default function App(props) {
     return result;
   };
   // ensure that currentPath.path is set to true, but only if it is false AND it should be true
-  useEffect(() => {
-    if (publicProtectedFlattenRoutes.some((pp) => currentPathCheck(pp))) {
-      if (!currentPath.isPublic) {
-        setCurrentPath(() => {
-          return { isSecured: false, isPublic: true };
-        });
-      }
-    } else if (authProtectedFlattenRoutes.some((pp) => currentPathCheck(pp))) {
-      if (!currentPath.isSecured) {
-        setCurrentPath(() => {
-          return { isPublic: false, isSecured: true };
-        });
-      }
-    } else if (!currentPath.isUnknown) {
-      setCurrentPath(() => {
-        return { isUnknown: true };
-      });
-    }
-  }, [pathname, currentPath]);
+  //   useEffect(() => {
+  //     if (publicProtectedFlattenRoutes.some((pp) => currentPathCheck(pp))) {
+  //       if (!currentPath.isPublic) {
+  //         setCurrentPath(() => {
+  //           return { isSecured: false, isPublic: true };
+  //         });
+  //       }
+  //     } else if (!currentPath.isUnknown) {
+  //       setCurrentPath(() => {
+  //         return { isUnknown: true };
+  //       });
+  //     }
+  //   }, [pathname, currentPath]);
 
   const generateDynamicRoutes = (currentUser) => {
     _logger("generateDynamicRoutes", authProtectedFlattenRoutes);
@@ -161,39 +123,11 @@ export default function App(props) {
   return (
     <div>
       <Suspense fallback={<Loading />}>
-        {/* if the path is public we do not care about the current User  */}
-        {currentPath.isPublic && (
-          <DefaultLayout
-            {...props}
-            currentUser={currentUser}
-            setLoginState={setLoginState}
-          >
-            <Routes>
-              {getMappedRoutes(publicProtectedFlattenRoutes, currentUser)}
-            </Routes>
-          </DefaultLayout>
-        )}
-
-        {/* if the user is logged in and attempting to go to an KNOWN page, that is is also secure/not public  */}
-        {currentUser.isLoggedIn &&
-          !currentPath.isPublic &&
-          !currentPath.isUnknown && (
-            <HorizontalLayout {...props}>
-              <Routes>{generateDynamicRoutes(currentUser)}</Routes>
-            </HorizontalLayout>
-          )}
-
-        {/* we do not know this url , and so the user status does not matter */}
-        {currentPath.isUnknown && (
-          <DefaultLayout {...props}>
-            <Routes>
-              {getMappedRoutes(
-                getLast(publicProtectedFlattenRoutes),
-                currentUser
-              )}
-            </Routes>
-          </DefaultLayout>
-        )}
+        {/* <DefaultLayout {...props}> */}
+        <Routes>
+          <Route path="/chat" element={<Chat />} />
+        </Routes>
+        {/* </DefaultLayout> */}
       </Suspense>
     </div>
   );

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Col, Row, Image, Card } from "react-bootstrap";
 import PropTypes from "prop-types";
 import debug from "sabio-debug";
-import messageServices from "services/messageService";
+import messageServices from "../../../services/messageService";
 import { FiEdit, FiSettings } from "react-icons/fi";
 
 const _logger = debug.extend("Sidebar");
@@ -22,16 +22,16 @@ const Sidebar = ({ messages, currentUser, cardClicked }) => {
     newUserArray: [],
   });
 
-  useEffect(() => {
-    messageServices
-      .getUsersInConvos()
-      .then(getUsersInConvosSuccess)
-      .catch(getUsersInConvosError);
-    messageServices
-      .getClientsOrVets()
-      .then(getClientsOrVetsSuccess)
-      .catch(getClientsOrVetsError);
-  }, []);
+  //   useEffect(() => {
+  //     messageServices
+  //       .getUsersInConvos()
+  //       .then(getUsersInConvosSuccess)
+  //       .catch(getUsersInConvosError);
+  //     messageServices
+  //       .getClientsOrVets()
+  //       .then(getClientsOrVetsSuccess)
+  //       .catch(getClientsOrVetsError);
+  //   }, []);
   const getUsersInConvosSuccess = (response) => {
     let responseData = response.items;
     setUsersInConvos((prevState) => {
@@ -183,7 +183,8 @@ const Sidebar = ({ messages, currentUser, cardClicked }) => {
                   </div>
                   <div className=" ms-2">
                     <h5 className="mb-0">
-                      {currentUser.firstName} {currentUser.lastName}
+                      {currentUser?.firstName || "Jared"}{" "}
+                      {currentUser?.lastName || "Test"}
                     </h5>
                     <p className="mb-0 text-muted">Online</p>
                   </div>

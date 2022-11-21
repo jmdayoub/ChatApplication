@@ -1,5 +1,5 @@
 import axios from "axios";
-import { onGlobalError, onGlobalSuccess } from "./serviceHelpers";
+import { onGlobalError, onGlobalSuccess } from "../services/serviceHelpers";
 
 const API = process.env.REACT_APP_API_HOST_PREFIX;
 
@@ -57,20 +57,20 @@ const deleteById = (id) => {
   const config = {
     method: "DELETE",
     url: `${messageService.endpoint}/${id}`,
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
   };
   return axios(config).then(onGlobalSuccess).catch(onGlobalError);
-}
+};
 
 const updateMessage = (id, message) => {
   const config = {
     method: "PUT",
     data: message,
     url: `${messageService.endpoint}/${id}`,
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
   };
   return axios(config).then(onGlobalSuccess).catch(onGlobalError);
-}
+};
 
 const messageServices = {
   addMessage,

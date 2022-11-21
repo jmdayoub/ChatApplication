@@ -3,7 +3,7 @@ import { Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import SimpleBar from "simplebar-react";
 import PropTypes from "prop-types";
-import messageServices from "services/messageService";
+import messageServices from "../../services/messageService";
 import debug from "sabio-debug";
 import toastr from "toastr";
 import "./Chatbox.css";
@@ -27,7 +27,7 @@ const ChatBox = ({
     subject: "",
     recipientId: "",
     isFile: false,
-    senderId: currentUser.id,
+    senderId: 1,
     counter: 0,
   });
 
@@ -176,13 +176,13 @@ const ChatBox = ({
                     >
                       <FiSend />
                     </button>
-                    <button
+                    {/* <button
                       type="button"
                       className="btn chat-btn-primary chat-send mx-1 btn-block"
                       onClick={createACall}
                     >
                       Call
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>
