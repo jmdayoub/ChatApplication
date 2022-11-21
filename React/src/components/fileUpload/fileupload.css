@@ -1,0 +1,30 @@
+.dzThumbsContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 16;
+}
+
+.dzThumb {
+  display: inline-flex;
+  border-radius: 2;
+  border: 1px solid #eaeaea;
+  margin-bottom: 8;
+  margin-right: 8;
+  width: 100px;
+  height: 100px;
+  padding: 4;
+  box-sizing: border-box;
+}
+
+.dzThumbInner {
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.dzImg {
+  display: block;
+  width: auto;
+  height: 100px;
+}
